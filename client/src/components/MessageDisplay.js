@@ -11,17 +11,17 @@ const Container = styled.div`
 
 const MessageDisplay = () => {
   const messages = useSelector(state => state.messages);
-  const currentUserId = useSelector(state => state.user.id);
+  const currentUser = useSelector(state => state.user.username);
 
   return (
     <Container>
-      {messages.map(({ id, timestamp, username, text, userId, status }) => (
+      {messages.map(({ id, timestamp, username, text, status }) => (
         <Message
           key={id}
           timestamp={timestamp}
           username={username}
           text={text}
-          isUsers={userId === currentUserId}
+          isUsers={username === currentUser}
 					status={status}
         />
       ))}

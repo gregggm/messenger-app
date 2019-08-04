@@ -1,5 +1,7 @@
-const user = (state = { username: 'Greg', id: '123' }, action) => {
+const user = (state = { username: '' }, action) => {
   switch (action.type) {
+    case 'SET_USER':
+      return { ...state, username: action.payload };
     default:
       return state;
   }

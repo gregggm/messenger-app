@@ -1,5 +1,10 @@
 import { SENDING } from "../constants/messageStatus";
 
+export const setUser = username => ({
+	type: 'SET_USER',
+	payload: username
+})
+
 export const editMessage = text => ({
   type: 'EDIT_MESSAGE',
   payload: text
@@ -13,7 +18,6 @@ export const sendMessage = text => (dispatch, getState) => {
     payload: {
       text,
       username: user.username,
-      userId: user.id,
       timestamp: new Date(),
 			id: '1',
 			status: SENDING
