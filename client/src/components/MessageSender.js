@@ -4,16 +4,29 @@ import { editMessage, sendMessage } from '../actions';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  width: 90%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 5%;
+  width: 100%;
   display: block;
-  margin: 0 auto;
 `;
 
 const TextArea = styled.textarea`
   resize: none;
   display: inline-block;
   padding: 0;
-  width: 100%;
+  width: 88%;
+  height: 100%;
+  font-size: 1em;
+`;
+
+const Button = styled.button`
+  position: absolute;
+  right: 0;
+  display: inline-block;
+  width: 10%;
+  height: 100%;
 `;
 
 const MessageSender = () => {
@@ -42,7 +55,7 @@ const MessageSender = () => {
           }
         }}
       />
-      <button onClick={send}>Send</button>
+      <Button onClick={send}>Send</Button>
     </Container>
   );
 };

@@ -8,6 +8,8 @@ const Container = styled.div`
 `;
 
 const MessageInfo = styled.span`
+  font-size: 0.8em;
+  color: #303030;
   display: block;
 `;
 

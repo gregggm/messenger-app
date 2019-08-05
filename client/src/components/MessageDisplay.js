@@ -6,7 +6,11 @@ import styled from 'styled-components';
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-end;
+  height: 95%;
+  position: relative;
+  overflow-y: scroll;
+  padding-bottom: 10px;
 `
 
 const MessageDisplay = () => {
