@@ -1,9 +1,9 @@
-import { SENDING } from "../constants/messageStatus";
+import { SENDING } from '../constants/messageStatus';
 
-export const setUser = username => ({
-	type: 'SET_USER',
-	payload: username
-})
+export const connected = username => ({
+  type: 'CONNECTED',
+  payload: username
+});
 
 export const editMessage = text => ({
   type: 'EDIT_MESSAGE',
@@ -19,7 +19,7 @@ export const sendMessage = text => (dispatch, getState) => {
       content: text,
       sender: user.username,
       timestamp: new Date(),
-			status: SENDING
+      status: SENDING
     }
   });
 };

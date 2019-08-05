@@ -1,5 +1,5 @@
 import { Client } from '@stomp/stompjs';
-import { setUser, recieveMessage } from '../actions';
+import { connected, recieveMessage } from '../actions';
 
 const websocket = store => {
   const client = new Client({
@@ -14,10 +14,9 @@ const websocket = store => {
 
   client.onConnect = function(frame) {
     const { name } = frame.headers;
-    store.dispatch(setUser(name));
+    store.dispatch(connected(name));
 
     const subscription = client.subscribe('/topic/public-room', message => {
-      console.log('RECIEVE' ,JSON.parse(message.body));
       const {
         sender,
         content,
@@ -33,6 +32,7 @@ const websocket = store => {
           id
         })
       );
+      message.ack();
     });
 
     // Do something, all subscribes must be done is this callback
@@ -63,7 +63,6 @@ const websocket = store => {
           destination: '/topic/public-room',
           body: JSON.stringify(message)
         });
-        console.log('SEND', message);
     }
     return next(action);
   };

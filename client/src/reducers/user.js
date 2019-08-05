@@ -1,6 +1,6 @@
 const user = (state = { username: '' }, action) => {
   switch (action.type) {
-    case 'SET_USER':
+    case 'CONNECTED':
       return { ...state, username: action.payload };
     default:
       return state;
