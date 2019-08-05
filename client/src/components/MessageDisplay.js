@@ -15,13 +15,13 @@ const MessageDisplay = () => {
 
   return (
     <Container>
-      {messages.map(({ id, timestamp, username, text, status }) => (
+      {messages.map(({ id, timestamp, sender, content, status }) => (
         <Message
           key={id}
           timestamp={timestamp}
-          username={username}
-          text={text}
-          isUsers={username === currentUser}
+          sender={sender}
+          content={content}
+          isUsers={sender === currentUser}
 					status={status}
         />
       ))}

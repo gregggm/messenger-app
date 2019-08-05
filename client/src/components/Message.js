@@ -21,14 +21,14 @@ const MessageBubble = styled.span`
   float: ${({ isUsers }) => (isUsers ? 'right' : 'left')};
 `;
 
-const Message = ({ timestamp, text, username, isUsers }) => {
+const Message = ({ timestamp, content, sender, isUsers }) => {
   return (
     <Container isUsers={isUsers}>
       <MessageInfo>
-        {username} {timestamp.toTimeString().slice(0, 8)}
+        {sender} {timestamp.toTimeString().slice(0, 8)}
       </MessageInfo>
       <MessageBubble isUsers={isUsers}>
-        {text}
+        {content}
       </MessageBubble>
     </Container>
   );
@@ -36,8 +36,8 @@ const Message = ({ timestamp, text, username, isUsers }) => {
 
 Message.propTypes = {
   timestamp: PropTypes.instanceOf(Date).isRequired,
-  text: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  sender: PropTypes.string.isRequired,
   isUsers: PropTypes.bool.isRequired,
   status: PropTypes.string
 };

@@ -14,21 +14,21 @@ const websocket = store => {
 
   client.onConnect = function(frame) {
     const { name } = frame.headers;
-    console.log('xxx', name);
     store.dispatch(setUser(name));
+
     const subscription = client.subscribe('/topic/public-room', message => {
-      console.log(JSON.parse(message.body));
+      console.log('RECIEVE' ,JSON.parse(message.body));
       const {
-        sender: username,
-        content: text,
+        sender,
+        content,
         timestamp: timeString
       } = JSON.parse(message.body);
       const timestamp = new Date(timeString);
       const id = message.headers['message-id'];
       store.dispatch(
         recieveMessage({
-          username,
-          text,
+          sender,
+          content,
           timestamp,
           id
         })
@@ -53,17 +53,17 @@ const websocket = store => {
   return next => action => {
     switch (action.type) {
       case 'SEND_MESSAGE':
-        const { text, username, timestamp } = action.payload;
+        const { content, sender, timestamp } = action.payload;
         const message = {
-          content: text,
-          sender: username,
+          content,
+          sender,
           timestamp
         };
         client.publish({
           destination: '/topic/public-room',
           body: JSON.stringify(message)
         });
-        console.log('send', action);
+        console.log('SEND', message);
     }
     return next(action);
   };

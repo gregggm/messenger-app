@@ -16,10 +16,9 @@ export const sendMessage = text => (dispatch, getState) => {
   dispatch({
     type: 'SEND_MESSAGE',
     payload: {
-      text,
-      username: user.username,
+      content: text,
+      sender: user.username,
       timestamp: new Date(),
-			id: '1',
 			status: SENDING
     }
   });
