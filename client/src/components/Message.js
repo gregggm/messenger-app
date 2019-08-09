@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useSpring, animated } from 'react-spring';
+import { useTransition, animated } from 'react-spring';
 
 const Container = styled.div`
   display: block;
@@ -24,20 +24,39 @@ const MessageBubble = styled.span`
   float: ${({ isUsers }) => (isUsers ? 'right' : 'left')};
 `;
 
+
 const Message = ({ timestamp, content, sender, isUsers, isGrouped }) => {
+  let timeout;
   const [showInfo, toggleInfo] = useState(isGrouped);
-  const props = useSpring({
-    scale: 1,
-    from: { scale: 0.01 },
-    config: { duration: 1250 }
+  const transition = useTransition(showInfo, null, {
+    from: { opacity: 0, height: 0 },
+    enter: item => async (next, cancel) => {
+      await next({ height: 20 });
+      await next({ opacity: 1 });
+    },
+    leave: item => async (next, cancel) => {
+      await next({ opacity: 0 });
+      await next({ height: 0 });
+    }
   });
   return (
-    <Container isUsers={isUsers} onClick={() => toggleInfo(!showInfo)}>
-      {showInfo || (
-        <MessageInfo style={props}>
-          {sender} {timestamp.toTimeString().slice(0, 8)}
-        </MessageInfo>
+    <Container
+      isUsers={isUsers}
+      onClick={() => {
+        toggleInfo(!showInfo);
+        clearTimeout(timeout)
+        timeout = setTimeout(() => toggleInfo(true), 8000)
+      }}
+    >
+      {transition.map(
+        ({ item, key, props }) =>
+          item || (
+            <MessageInfo style={props}>
+              {sender} {timestamp.toTimeString().slice(0, 8)}
+            </MessageInfo>
+          )
       )}
+
       <MessageBubble isUsers={isUsers}>{content}</MessageBubble>
     </Container>
   );
