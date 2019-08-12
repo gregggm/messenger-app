@@ -1,7 +1,9 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Message from './Message';
 import styled from 'styled-components';
+
+import { getPreviousMessages } from '../actions';
 
 const Container = styled.div`
 	display: flex;
@@ -16,6 +18,10 @@ const Container = styled.div`
 const MessageDisplay = () => {
   const messages = useSelector(state => state.messages);
   const currentUser = useSelector(state => state.user.username);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getPreviousMessages());
+  }, []);
 
   return (
     <Container>

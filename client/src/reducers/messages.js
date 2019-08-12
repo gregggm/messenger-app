@@ -5,6 +5,8 @@ const messages = (state = [], action) => {
       return [...state, action.payload];
     case 'RECIEVE_MESSAGE':
       return [...state, action.payload];
+    case 'RECIEVE_PREVIOUS_MESSAGES':
+      return [...state, ...action.payload]
     default:
       return state;
   }

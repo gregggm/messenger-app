@@ -60,7 +60,7 @@ const websocket = store => {
           timestamp
         };
         client.publish({
-          destination: '/topic/public-room',
+          destination: '/app/send',
           body: JSON.stringify(message)
         });
     }
