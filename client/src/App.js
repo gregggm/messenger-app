@@ -20,6 +20,9 @@ const AppContainer = styled.div`
 `;
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   border-radius: 10px;
   width: 400px;
   height: 600px;

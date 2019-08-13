@@ -4,10 +4,10 @@ import { editMessage, sendMessage } from '../actions';
 import styled from 'styled-components';
 
 const Container = styled.div`
+  flex: 0.5;
   position: relative;
   display: flex;
   justify-content: center;
-  height: 5%;
   width: 100%;
   display: block;
 `;
