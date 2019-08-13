@@ -18,18 +18,19 @@ const websocket = store => {
 
     const subscription = client.subscribe('/topic/public-room', message => {
       const {
+        _id,
         sender,
         content,
-        timestamp: timeString
+        timeSent: timestamp
       } = JSON.parse(message.body);
-      const timestamp = new Date(timeString);
+      const timeObject = new Date(timestamp);
       const id = message.headers['message-id'];
       store.dispatch(
         recieveMessage({
           sender,
           content,
-          timestamp,
-          id
+          timestamp: timeObject,
+          id: JSON.stringify(_id)
         })
       );
       message.ack();
