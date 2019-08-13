@@ -25,10 +25,18 @@ const Container = styled.div`
   justify-content: flex-end;
   border-radius: 10px;
   width: 400px;
-  height: 600px;
+  max-height: 600px;
+  height: 70%;
   padding: 10px;
   background-color: white;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+
+  @media (max-width: 420px) {
+    border-radius: 0;
+    max-height: 100%;
+    height: 100%;
+    width: 100%;
+  }
 `;
 
 const App = () => (
