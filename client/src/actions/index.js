@@ -36,16 +36,19 @@ export const getPreviousMessages = messageId => async dispatch => {
       payload: messageId
     });
     const response = await fetch(
-      'https://chat-app-backend-server.herokuapp.com/app/previous-messages',
+      'https://chat-app-backend-server.herokuapp.com/message/previous/10',
       {
         method: 'POST',
-        mode: 'no-cors',
-        'Content-Type': 'application/json',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
         body: messageId
       }
-    );
+    ).catch(console.error);
     const data = await response.json();
-    const previousMessgaes = data.map(({ sender, content, timeSent }) => ({
+    const previousMessgaes = data.map(({ _id, sender, content, timeSent }) => ({
+      id: JSON.stringify(_id),
       sender,
       content,
       timestamp: new Date(timeSent)

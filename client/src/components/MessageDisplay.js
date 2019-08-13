@@ -6,14 +6,14 @@ import styled from 'styled-components';
 import { getPreviousMessages } from '../actions';
 
 const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   height: 95%;
   position: relative;
   overflow-y: scroll;
   padding-bottom: 10px;
-`
+`;
 
 const MessageDisplay = () => {
   const messages = useSelector(state => state.messages);
@@ -32,7 +32,7 @@ const MessageDisplay = () => {
           sender={sender}
           content={content}
           isUsers={sender === currentUser}
-					status={status}
+          status={status}
         />
       ))}
     </Container>
