@@ -21,15 +21,15 @@ const websocket = store => {
         _id,
         sender,
         content,
-        timeSent: timestamp
+        timeSent
       } = JSON.parse(message.body);
-      const timeObject = new Date(timestamp);
+      const timestamp = new Date(timeSent);
       const id = message.headers['message-id'];
       store.dispatch(
         recieveMessage({
           sender,
           content,
-          timestamp: timeObject,
+          timestamp,
           id: JSON.stringify(_id)
         })
       );

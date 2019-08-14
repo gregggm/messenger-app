@@ -27,7 +27,7 @@ const Message = ({ timestamp, content, sender, isUsers }) => {
   return (
     <Container isUsers={isUsers}>
       <MessageInfo>
-        {sender} {timestamp.toTimeString().slice(0, 8)}
+        {sender} {timestamp.toLocaleString()}
       </MessageInfo>
       <MessageBubble isUsers={isUsers}>
         {content}
