@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getTimeSortedMessages } from '../reducers/messages';
+import { getSortedMessages } from '../reducers/messages';
 import { getPreviousMessages } from '../actions';
 
 
@@ -11,7 +11,7 @@ const useScroll = () => {
   const elementPreviousHeightRef = useRef();
   const requestedMoreMessagesRef = useRef(false);
   const dispatch = useDispatch();
-  const messages = useSelector(getTimeSortedMessages);
+  const messages = useSelector(getSortedMessages);
 
   const handleScroll = () => {
     const { scrollTop, scrollHeight, offsetHeight } = elementRef.current;

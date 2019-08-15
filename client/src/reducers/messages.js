@@ -16,9 +16,28 @@ const messages = (state = [], action) => {
 
 const getMessages = state => state.messages;
 
-export const getTimeSortedMessages = createSelector(
+export const getSortedMessages = createSelector(
   [getMessages],
   messages => messages.sort((a, b) => a.timestamp - b.timestamp)
+);
+
+export const getGroupedSortedMessages = createSelector(
+  [getSortedMessages],
+  messages =>
+    messages.reduce(
+      (accumulator, message, index, messages) => {
+        if (
+          messages[index - 1] &&
+          message.sender === messages[index - 1].sender
+        ) {
+          accumulator[0].push(message);
+        } else {
+          accumulator.push([message]);
+        }
+        return accumulator;
+      },
+      []
+    )
 );
 
 export default messages;

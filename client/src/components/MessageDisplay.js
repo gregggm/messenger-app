@@ -4,7 +4,7 @@ import Message from './Message';
 import styled from 'styled-components';
 
 import { getPreviousMessages } from '../actions';
-import { getTimeSortedMessages } from '../reducers/messages';
+import { getSortedMessages, getGroupedSortedMessages } from '../reducers/messages';
 import useScroll from '../hooks/useScroll';
 
 const Container = styled.div`
@@ -26,7 +26,9 @@ const Scrollable = styled.div`
 `;
 
 const MessageDisplay = () => {
-  const messages = useSelector(getTimeSortedMessages);
+  const messages = useSelector(getSortedMessages);
+	const groupedMesssage = useSelector(getGroupedSortedMessages);
+	console.log(groupedMesssage)
   const currentUser = useSelector(state => state.user.username);
   const dispatch = useDispatch();
 
@@ -35,6 +37,8 @@ const MessageDisplay = () => {
   }, []);
 
   const scrollableElement = useScroll();
+
+	console.log(messages)
 
   return (
     <Container ref={scrollableElement}>
