@@ -37,7 +37,10 @@ const MessageSender = () => {
 
   const handleInput = event => dispatch(editMessage(event.target.value));
   const send = () => {
-    dispatch(sendMessage(text));
+		const textHasContent = text.trim().length > 0;
+		if (textHasContent) {
+			dispatch(sendMessage(text));
+		}
     textAreaEl.current.focus();
   };
 
