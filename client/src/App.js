@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import MessageDisplay from './components/MessageDisplay';
 import MessageSender from './components/MessageSender';
 
@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
   * {
 		margin: 0;
     box-sizing: border-box;
-    font-family: 'helvetica, sans-serif'
+    font-family: 'Helvetica', 'Arial', sans-serif
   }
 `;
 
@@ -28,6 +28,7 @@ const Container = styled.div`
   max-height: 600px;
   height: 70%;
   padding: 10px;
+  padding-top: 0;
   background-color: white;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
 
@@ -39,14 +40,21 @@ const Container = styled.div`
   }
 `;
 
+const theme = {
+	primary: '#0099ff',
+	secondary: '#f0f0f0'
+}
+
 const App = () => (
-  <AppContainer>
-    <GlobalStyle />
-    <Container>
-      <MessageDisplay />
-      <MessageSender />
-    </Container>
-  </AppContainer>
+  <ThemeProvider theme={theme}>
+    <AppContainer>
+      <GlobalStyle />
+      <Container>
+        <MessageDisplay />
+        <MessageSender />
+      </Container>
+    </AppContainer>
+  </ThemeProvider>
 );
 
 export default App;

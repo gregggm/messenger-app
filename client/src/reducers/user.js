@@ -7,4 +7,6 @@ const user = (state = { username: '' }, action) => {
   }
 };
 
+export const getUsername = state => state.user.username;
+
 export default user;
