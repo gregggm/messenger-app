@@ -1,35 +1,30 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import MessageInfo from './MessageInfo';
+import MessageBubble from './MessageBubble';
 
 const Container = styled.div`
   display: block;
+  width: 100%;
   align-self: ${({ isUsers }) => (isUsers ? 'flex-end' : 'flex-start')};
 `;
 
-const MessageInfo = styled.span`
-  font-size: 0.8em;
-  color: #303030;
-  display: block;
-`;
+const Message = ({ timestamp, content, sender, isUsers, position }) => {
+  const [showInfo, setShowInfo] = useState(false);
+  const timeout = useRef();
 
-const MessageBubble = styled.span`
-	max-width: 200px;
-  display: inline-block;
-  border-radius: 15px;
-  padding: 10px;
-  background: ${({ isUsers }) => (isUsers ? '#0099ff' : '#f0f0f0')};
-  color: ${({ isUsers }) => (isUsers ? '#fff' : '#000')};
-  float: ${({ isUsers }) => (isUsers ? 'right' : 'left')};
-`;
-
-const Message = ({ timestamp, content, sender, isUsers }) => {
   return (
-    <Container isUsers={isUsers}>
-      <MessageInfo>
-        {sender} {timestamp.toLocaleString()}
-      </MessageInfo>
-      <MessageBubble isUsers={isUsers}>
+    <Container
+      isUsers={isUsers}
+      onClick={() => {
+        clearTimeout(timeout.current);
+        setShowInfo(!showInfo);
+        timeout.current = setTimeout(() => setShowInfo(false), 5000);
+      }}
+    >
+      <MessageInfo showInfo={showInfo} timestamp={timestamp} />
+      <MessageBubble isUsers={isUsers} position={position}>
         {content}
       </MessageBubble>
     </Container>
@@ -41,7 +36,8 @@ Message.propTypes = {
   content: PropTypes.string.isRequired,
   sender: PropTypes.string.isRequired,
   isUsers: PropTypes.bool.isRequired,
-  status: PropTypes.string
+  status: PropTypes.string,
+  position: PropTypes.string.isRequired
 };
 
 export default Message;

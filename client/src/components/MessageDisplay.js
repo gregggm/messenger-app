@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Message from './Message';
+import MessageGroup from './MessageGroup';
 import styled from 'styled-components';
 
 import { getPreviousMessages } from '../actions';
-import { getTimeSortedMessages } from '../reducers/messages';
+import { getGroupedSortedMessages } from '../reducers/messages';
 import useScroll from '../hooks/useScroll';
 
 const Container = styled.div`
@@ -26,29 +26,28 @@ const Scrollable = styled.div`
 `;
 
 const MessageDisplay = () => {
-  const messages = useSelector(getTimeSortedMessages);
-  const currentUser = useSelector(state => state.user.username);
+  const messageGroups = useSelector(getGroupedSortedMessages);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getPreviousMessages());
   }, []);
 
-  const scrollableElement = useScroll();
-
+	const scrollContainer = useScroll();
+	
   return (
-    <Container ref={scrollableElement}>
+    <Container ref={scrollContainer}>
       <Scrollable>
-        {messages.map(({ id, timestamp, sender, content, status }) => (
-          <Message
-            key={id}
-            timestamp={timestamp}
-            sender={sender}
-            content={content}
-            isUsers={sender === currentUser}
-            status={status}
-          />
-        ))}
+        {messageGroups.map(({messages, isUsers, showTimeInfo}) => {
+          return (
+            <MessageGroup
+              key={messages[0].id}
+              messages={messages}
+              isUsers={isUsers}
+							showTimeInfo={showTimeInfo}
+            />
+          );
+        })}
       </Scrollable>
     </Container>
   );

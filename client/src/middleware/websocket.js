@@ -14,7 +14,7 @@ const websocket = store => {
 
   client.onConnect = function(frame) {
     const { name } = frame.headers;
-    store.dispatch(connected(name));
+    store.dispatch(connected('test'));
 
     const subscription = client.subscribe('/topic/public-room', message => {
       const {
@@ -24,7 +24,6 @@ const websocket = store => {
         timeSent
       } = JSON.parse(message.body);
       const timestamp = new Date(timeSent);
-      const id = message.headers['message-id'];
       store.dispatch(
         recieveMessage({
           sender,
@@ -34,7 +33,7 @@ const websocket = store => {
         })
       );
       message.ack();
-    });
+    }, {username: 'test'} );
 
     // Do something, all subscribes must be done is this callback
     // This is needed because this will be executed after a (re)connect
