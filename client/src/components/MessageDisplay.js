@@ -33,18 +33,18 @@ const MessageDisplay = () => {
     dispatch(getPreviousMessages());
   }, []);
 
-	const scrollContainer = useScroll();
-	
+  const bind = useScroll();
+
   return (
-    <Container ref={scrollContainer}>
+    <Container {...bind}>
       <Scrollable>
-        {messageGroups.map(({messages, isUsers, showTimeInfo}) => {
+        {messageGroups.map(({ messages, isUsers, showTimeInfo }) => {
           return (
             <MessageGroup
               key={messages[0].id}
               messages={messages}
               isUsers={isUsers}
-							showTimeInfo={showTimeInfo}
+              showTimeInfo={showTimeInfo}
             />
           );
         })}

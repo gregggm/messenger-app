@@ -3,8 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSortedMessages } from '../reducers/messages';
 import { getPreviousMessages } from '../actions';
 
-
-
 const useScroll = () => {
   const elementRef = useRef(null);
   const lockToBottomRef = useRef(true);
@@ -14,7 +12,7 @@ const useScroll = () => {
   const messages = useSelector(getSortedMessages);
 
   const handleScroll = () => {
-		const { scrollTop, scrollHeight, offsetHeight } = elementRef.current;
+    const { scrollTop, scrollHeight, offsetHeight } = elementRef.current;
 
     if (scrollTop === 0 && requestedMoreMessagesRef.current === false) {
       dispatch(getPreviousMessages(messages[0].id));
@@ -46,7 +44,7 @@ const useScroll = () => {
     return () => elementRef.current.removeEventListener('scroll', handleScroll);
   }, [messages]);
 
-  return elementRef;
+  return { ref: elementRef };
 };
 
 export default useScroll;
