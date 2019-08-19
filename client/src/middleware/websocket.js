@@ -1,5 +1,5 @@
 import { Client } from '@stomp/stompjs';
-import { connected, recieveMessage, updateUsers } from '../actions';
+import { connected, recieveMessage, updateActiveUsers } from '../actions';
 
 const websocket = store => {
   const client = new Client({
@@ -27,7 +27,7 @@ const websocket = store => {
     store.dispatch(connected(name, sessionId));
     fetch('https://chat-app-backend-server.herokuapp.com/active-users')
       .then(res => res.json())
-      .then(data => store.dispatch(updateUsers(data.users)))
+      .then(data => store.dispatch(updateActiveUsers(data.users)))
       .catch(console.err);
 
     const publicMessageSub = client.subscribe('/topic/public-room', message => {
@@ -48,7 +48,7 @@ const websocket = store => {
       '/topic/public-room/active-users',
       message => {
         const { users } = JSON.parse(message.body);
-        store.dispatch(updateUsers(users));
+        store.dispatch(updateActiveUsers(users));
         message.ack();
       }
     );

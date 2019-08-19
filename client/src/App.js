@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import MessageDisplay from './components/MessageDisplay';
 import MessageSender from './components/MessageSender';
+import ActiveUsers from './components/ActiveUsers';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -50,6 +51,7 @@ const App = () => (
     <AppContainer>
       <GlobalStyle />
       <Container>
+				<ActiveUsers />
         <MessageDisplay />
         <MessageSender />
       </Container>

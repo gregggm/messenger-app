@@ -6,9 +6,15 @@ export const connected = (username, sessionId) => ({
   payload: { username, sessionId }
 });
 
-export const updateUsers = users => (dispatch, getState) => dispatch({
-  type: 'UPDATE_ACTIVE_USERS',
-  payload: users.filter(user => user !== getUsername(getState()))
+export const updateActiveUsers = users => (dispatch, getState) =>
+  dispatch({
+    type: 'UPDATE_ACTIVE_USERS',
+    payload: users.filter(user => user !== getUsername(getState()))
+  });
+
+export const toggleActiveUsers = display => ({
+  type: 'TOGGLE_ACTIVE_USERS',
+  payload: display
 });
 
 export const editMessage = text => ({
