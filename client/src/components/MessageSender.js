@@ -37,8 +37,8 @@ const Button = styled(animated.button)`
   border-radius: 20px;
   outline: none;
   border: none;
-	color: '#303030'
-  background-color: #f0f0f0;
+  background-color: transparent;
+	cursor: pointer;
 `;
 
 const MessageSender = () => {
