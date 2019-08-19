@@ -1,8 +1,14 @@
 import { SENDING } from '../constants/messageStatus';
+import { getUsername } from '../reducers/user';
 
 export const connected = (username, sessionId) => ({
   type: 'CONNECTED',
   payload: { username, sessionId }
+});
+
+export const updateUsers = users => (dispatch, getState) => dispatch({
+  type: 'UPDATE_ACTIVE_USERS',
+  payload: users.filter(user => user !== getUsername(getState()))
 });
 
 export const editMessage = text => ({
@@ -47,12 +53,14 @@ export const getPreviousMessages = messageId => async dispatch => {
       }
     ).catch(console.error);
     const { messages } = await response.json();
-    const previousMessgaes = messages.map(({ _id, sender, content, timeSent }) => ({
-      id: JSON.stringify(_id),
-      sender,
-      content,
-      timestamp: new Date(timeSent)
-    }));
+    const previousMessgaes = messages.map(
+      ({ _id, sender, content, timeSent }) => ({
+        id: JSON.stringify(_id),
+        sender,
+        content,
+        timestamp: new Date(timeSent)
+      })
+    );
     dispatch({
       type: 'RECIEVE_PREVIOUS_MESSAGES',
       payload: previousMessgaes
@@ -65,12 +73,14 @@ export const getPreviousMessages = messageId => async dispatch => {
       'https://chat-app-backend-server.herokuapp.com/messages/latest/25'
     );
     const { messages } = await response.json();
-    const previousMessgaes = messages.map(({ _id, sender, content, timeSent }) => ({
-      id: JSON.stringify(_id),
-      sender,
-      content,
-      timestamp: new Date(timeSent)
-    }));
+    const previousMessgaes = messages.map(
+      ({ _id, sender, content, timeSent }) => ({
+        id: JSON.stringify(_id),
+        sender,
+        content,
+        timestamp: new Date(timeSent)
+      })
+    );
     dispatch({
       type: 'RECIEVE_PREVIOUS_MESSAGES',
       payload: previousMessgaes

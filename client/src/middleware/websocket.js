@@ -1,5 +1,5 @@
 import { Client } from '@stomp/stompjs';
-import { connected, recieveMessage } from '../actions';
+import { connected, recieveMessage, updateUsers } from '../actions';
 
 const websocket = store => {
   const client = new Client({
@@ -18,10 +18,17 @@ const websocket = store => {
   };
 
   client.onConnect = function(frame) {
-		// FIXME can we return the username if we logged in with a username here
-		const { name = localStorage.getItem('chatApp-username'), sessionId } = frame.headers;
+    // FIXME can we return the username if we logged in with a username here
+    const {
+      name = localStorage.getItem('chatApp-username'),
+      sessionId
+    } = frame.headers;
     localStorage.setItem('chatApp-username', name);
     store.dispatch(connected(name, sessionId));
+    fetch('https://chat-app-backend-server.herokuapp.com/active-users')
+      .then(res => res.json())
+      .then(data => store.dispatch(updateUsers(data.users)))
+      .catch(console.err);
 
     const publicMessageSub = client.subscribe('/topic/public-room', message => {
       const { _id, sender, content, timeSent } = JSON.parse(message.body);
@@ -35,12 +42,16 @@ const websocket = store => {
         })
       );
       message.ack();
-		});
-		
-		const publicUsersSub = client.subscribe('/topic/public-room/active-users', message => {
-      console.log(message.body)
-      message.ack()
     });
+
+    const publicUsersSub = client.subscribe(
+      '/topic/public-room/active-users',
+      message => {
+        const { users } = JSON.parse(message.body);
+        store.dispatch(updateUsers(users));
+        message.ack();
+      }
+    );
 
     // Do something, all subscribes must be done is this callback
     // This is needed because this will be executed after a (re)connect
