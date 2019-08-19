@@ -6,7 +6,11 @@ const websocket = store => {
     brokerURL: 'ws://chat-app-backend-server.herokuapp.com/ima',
     debug: function(str) {
       console.log(str);
-    },
+		},
+
+		connectHeaders: {
+			username: 'greg'
+		},
     reconnectDelay: 5000,
     heartbeatIncoming: 4000,
     heartbeatOutgoing: 4000
