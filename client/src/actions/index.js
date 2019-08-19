@@ -1,8 +1,8 @@
 import { SENDING } from '../constants/messageStatus';
 
-export const connected = username => ({
+export const connected = (username, sessionId) => ({
   type: 'CONNECTED',
-  payload: username
+  payload: { username, sessionId }
 });
 
 export const editMessage = text => ({

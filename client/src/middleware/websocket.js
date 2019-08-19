@@ -6,27 +6,25 @@ const websocket = store => {
     brokerURL: 'ws://chat-app-backend-server.herokuapp.com/ima',
     debug: function(str) {
       console.log(str);
-		},
-
-		connectHeaders: {
-			username: 'greg'
-		},
+    },
     reconnectDelay: 5000,
     heartbeatIncoming: 4000,
     heartbeatOutgoing: 4000
   });
 
-  client.onConnect = function(frame) {
-    const { name } = frame.headers;
-    store.dispatch(connected('test'));
+  client.beforeConnect = () => {
+    const username = localStorage.getItem('chatApp-username');
+    client.connectHeaders.username = username || '';
+  };
 
-    const subscription = client.subscribe('/topic/public-room', message => {
-      const {
-        _id,
-        sender,
-        content,
-        timeSent
-      } = JSON.parse(message.body);
+  client.onConnect = function(frame) {
+		// FIXME can we return the username if we logged in with a username here
+		const { name = localStorage.getItem('chatApp-username'), sessionId } = frame.headers;
+    localStorage.setItem('chatApp-username', name);
+    store.dispatch(connected(name, sessionId));
+
+    const publicMessageSub = client.subscribe('/topic/public-room', message => {
+      const { _id, sender, content, timeSent } = JSON.parse(message.body);
       const timestamp = new Date(timeSent);
       store.dispatch(
         recieveMessage({
@@ -37,7 +35,12 @@ const websocket = store => {
         })
       );
       message.ack();
-    }, {username: 'test'} );
+		});
+		
+		const publicUsersSub = client.subscribe('/topic/public-room/active-users', message => {
+      console.log(message.body)
+      message.ack()
+    });
 
     // Do something, all subscribes must be done is this callback
     // This is needed because this will be executed after a (re)connect

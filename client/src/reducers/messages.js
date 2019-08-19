@@ -42,15 +42,15 @@ export const getGroupedSortedMessages = createSelector(
         message.position = 'BOTTOM';
         latestGroup.messages.push(message);
       } else {
-        let showTimeInfo = false;
+        let showTimeInfo = true;
         if (latestGroup) {
           if (
             (message.timestamp -
               latestGroup.messages[latestGroup.messages.length - 1].timestamp) /
-              1000 >
+              1000 <
             1200
           ) {
-            showTimeInfo = true;
+            showTimeInfo = false;
           }
         }
         message.position = 'ONLY';
